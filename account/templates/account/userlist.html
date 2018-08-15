@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block guid %}  - <a href="{% url 'userlist' %}">userlist </a>{% endblock %}
+  {% block title %} userlist {% endblock %} 
+{% block content %}
+
+
+    <div class="well">
+        <h1>用户列表</h1>
+	<p>您的单位是：&nbsp;{{ operator_profile.schoolname }}，&nbsp;{{ operator_profile.districtname }}，
+			&nbsp;{{ operator_profile.cityname }}，&nbsp;{{ operator_profile.provincename }}，</p>
+        <div  class="alert alert-success">
+		{% if user.is_superuser %}<a href="{% url 'userdeleteall' %}">delete all</a> {% endif %}
+        <table class="table table-striped"> 
+                <thead>
+              <tr>
+                <th>序号</th>
+                <th>用户名</th>
+		<th>学校</th>
+		<th>年级</th>
+		<th>班级</th>
+		<th>真实姓名</th>
+        <th>用户角色</th>
+		<th>删除</th>
+
+
+		{% if user.is_superuser %}
+                <th>编号</th>
+                <th>is_active</th>
+                <th>省</th>
+                <th>市</th>
+                <th>区</th>
+                <th>创建者</th>
+                <th>创建日期</th>
+                <th>最后登录</th><!-- 
+                <th>userprofile</th>
+                <th>用户的组</th>
+                <th>用户的权限</th>
+                <th>is_staff</th>
+                 <th>is_superuser</th>
+                <th>firstname</th>
+                <th>lastname</th>
+                <th>email</th>
+                <th>密码</th>
+                <th>logentry</th> -->
+		{% endif %}
+
+
+
+                
+
+                </tr> 
+           </thead>
+            <tbody>    
+   	{% for prof in userprof %}           <!--  for 1 -->
+ 
+        <tr>
+        <td>{{forloop.counter}}</td>  <!--  对应列为 <th>序号</th> -->
+        	{%for uuu in users%} 
+                {% if uuu.id == prof.user_id %}
+		        <td>{{uuu.username}}</td>  <!--  对应列为 <th>用户名</th> -->	
+			<td>{{prof.schoolname}} </td>   <!--  对应列为 <th>学校</th> --> 
+                        <td>{{prof.gradename}} </td>   <!--  对应列为 <th>年级</th> -->
+                        <td>{{prof.classname}} </td>   <!--  对应列为 <th>班级</th> --> 
+                    	<td>{{prof.truename}} </td>   <!--  对应列为 <th>真实姓名</th> --> 
+
+                {% if uuu.id == prof.user_id %}<!--  对应列为 <th>用户角色</th> -->
+                    <td>{% if prof.usergroup == 'group_teacher' %} <span class="label label-success">教师</span>
+                        {% elif prof.usergroup == 'group_student' %} <span class="label label-primary">学生</span>
+                        {% elif prof.usergroup == 'is_superuser' %} <span class="label label-danger">超级用户</span>
+                        {% elif prof.usergroup == 'group_admin' %} <span class="label label-warning">学校管理员</span>
+                       {% else %}<span class="label label-default">其他</span>{%endif%} 
+                            
+                        
+                    </td>
+                    
+                {% endif %}
+   
+	<td><a href="{% url 'userdelete' pp=uuu.id %}"><!-- pp传递的用户id -->删除</a></td>  <!--  对应列为 <th>删除</th> -->
+
+
+	{% if user.is_superuser %}
+        <td>{{uuu.id}}</td>
+        <td>{{uuu.is_active}}</td>   
+                        <td>{{prof.provincename}} </td>     
+                        <td>{{prof.cityname}} </td>    
+                        <td>{{prof.districtname}} </td>  
+            <td>{{prof.creator}} </td>   <!--  对应列为 <th>创建者</th> --> 
+        <td>{{uuu.date_joined}}</td>  <!--  对应列为 <th>创建日期</th> -->
+        <td>{{uuu.last_login}}</td>  <!--  对应列为 <th>最后登录</th> --><!-- 
+        <td>{{uuu.userprofile}}</td>
+        <td>{{uuu.groups}}</td>
+        <td>{{uuu.user_permissions}}</td>
+	<td>{% if uuu.is_staff %} 管理员 {% endif %}</td>  
+        <td>{% if uuu.is_superuser %} 超级用户 {% endif %}</td>
+        <td>{{uuu.first_name}}</td>
+        <td>{{uuu.last_name}}</td>
+        <td>{{user.email}}</td>  
+        <td>{{uuu.password}}</td>  
+        <td>{{uuu.logentry}}</td> -->
+	{% endif %}
+
+
+
+              
+                {% endif %}
+        	{% endfor %}        
+        </tr>
+ 
+    {% endfor %} 
+           </tbody>
+        </table>
+        </div>
+        {% if user.is_active and user.is_superuser %}  
+        <p>点击进入<a href="/admin/">管理用户权限</a> </br>
+        修改职员状态,可以将用户设置为管理员;</br>
+        修改组,可以将用户设置为学生(在组里,将'is_student'放入右边选中的组)或者老师(is_teacher) 
+        </p>
+        {% endif %}
+
+        
+    </div>
+{% endblock %}

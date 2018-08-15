@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+  {% block title %} index {% endblock %} 
+
+  
+
+
+{% block content %}
+
+
+
+  {% if not user.is_authenticated %}
+    <div class="well">
+      
+        <h1>登录</h1>
+        <p>&nbsp;</p>
+        {% if msgbox %}
+          <div class="alert">
+          {{ msg }}
+          </div>
+        {% endif %}
+
+        <form class="form-horizontal" action="" method="post">
+            {% csrf_token %}
+             <table class=""> 
+            {% for field in form %} 
+                <tr>
+                <td>{{ field.label_tag }}</td> <td>{{ field }} </td><td>{{ field.errors }}</td>
+                </tr>
+                <tr><td> &nbsp &nbsp </td></tr>
+            {% endfor %}   
+            </table> 
+
+            <p class="form-actions">
+                <input type="submit" value="登录" class="btn btn-primary">
+                <a href="{% url 'register' %}">忘记用户名</a>
+                <a href="{% url 'fgtpwd' %}">忘记密码</a>
+                <a href="{% url 'select_school' %}"  ><span class="label label-primary">注册</span></a>
+            </p>
+        </form>
+    </div>
+  {% endif %} 
+
+
+
+         
+<!-- if stu.同学 -->
+  {% if perms.account.is_student %}
+    <p><h3>最新动态</h3></p>
+    <div class="well">
+      <p>***完成了<a href="{% url 'home' %}">抑郁自评量表</a></p>
+      <p>***更新了<a href="{% url 'home' %}">个人档案</a></p>
+     </div>
+
+  {% endif %}
+<!-- if tea.老师 -->
+  {% if perms.account.is_teacher %}
+    <p><h3>最新动态</h3></p>
+    <div class="well">
+
+      <p>***老师发布了<a href="{% url 'home' %}">抑郁筛查</a>任务</p>
+      <p>***老师发表了<a href="{% url 'home' %}">如何摆脱考试焦虑</a></p>
+      <p>***同学完成了<a href="{% url 'home' %}">抑郁自评量表</a></p>
+      <p>***同学更新了<a href="{% url 'home' %}">个人档案</a></p>
+      <p>***同学完成了咨询<a href="{% url 'home' %}">查看</a></p>
+
+     
+      <p><a href="{% url 'home' %}">入学测试</a>任务完成了65%</p>
+      <p><a href="{% url 'home' %}">抑郁筛查</a>任务完成了95%</p>
+      
+      <p><a href="{% url 'home' %}">抑郁自评量表</a>完成了6588人次</p>
+      <p><a href="{% url 'home' %}">个人档案</a>共1288份</p></div>
+
+
+
+  {% endif %}
+
+  {% endblock %} 
+
+
+

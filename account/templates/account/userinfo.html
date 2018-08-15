@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block guid %}  - {% endblock %}
+  {% block title %} 个人中心 {% endblock %} 
+
+{% block content %}
+
+        
+<div class="well">
+        <h1>个人信息</h1>
+        <p>&nbsp;</p>
+<!-- 个人信息 -->
+    
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3 class="panel-title">用户名:</h3>
+    </div>
+    <div class="panel-body">
+        {{user.username}}   
+    </div>
+</div>     
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3 class="panel-title">角色:</h3>
+    </div>
+    <div class="panel-body"> 
+                    {% if user.is_active and user.is_superuser %} 超级用户   <!-- 2-3 if   -->
+                    {% else %}
+                        {% if user.is_active and user.is_staff %} 管理员   <!-- 3 if   -->
+                        {% else %}
+                                {% if perms.accounts.cando_admin %}学校管理员
+                                {% else %} 
+                                            {% if perms.accounts.cando_student %}学生{% endif %}   
+                                            {% if perms.accounts.cando_teacher %}老师{% endif %}
+                                {% endif %}   
+                        {% endif %}   <!-- 3 endif   -->
+                    {% endif %} <!-- 2-3 endif   --> 
+    </div>
+</div>     
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3 class="panel-title">真实姓名:</h3>
+    </div>
+    <div class="panel-body">  
+    {{userprof.truename}} 
+    </div>
+</div>     
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3 class="panel-title">学校班级:</h3>
+    </div>
+    <div class="panel-body"> 
+    {{userprof.provincename}}    </br>
+            {{userprof.cityname}}    </br>
+            {{userprof.districtname}}    </br>
+            {{userprof.schoolname}}    </br>
+            {{userprof.gradename}}    </br>
+            {{userprof.classname}}    
+    </div>
+</div>     
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3 class="panel-title">电话号码:</h3>
+    </div>
+    <div class="panel-body">  
+    {{userprof.phone}}
+    </div>
+</div>     
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3 class="panel-title">电子邮箱:</h3>
+    </div>
+    <div class="panel-body"> 
+    {{user.email}} 
+    </div>
+</div>     
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3 class="panel-title">修改密码:</h3>
+    </div>
+    <div class="panel-body">  
+
+
+                    <span class="badge">改</span>
+     
+                <a href="{% url 'changepassword' %}">修改密码</a
+
+    </div>
+</div> 
+
+
+
+ 
+
+</div>
+
+{% endblock %}

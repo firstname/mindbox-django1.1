@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+  {% block title %} 添加学校 {% endblock %} 
+{% block head %}
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/Popt.js' %}"></script>
+<script src="{% static 'js/cityJson.js' %}"></script>
+<script src="{% static 'js/citySet.js' %}"></script>
+<style type="text/css">
+
+._citys { width: 450px; display: inline-block; border: 2px solid #eee; padding: 5px; position: relative; }
+._citys span { color: #56b4f8; height: 15px; width: 15px; line-height: 15px; text-align: center; border-radius: 3px; position: absolute; right: 10px; top: 10px; border: 1px solid #56b4f8; cursor: pointer; }
+._citys0 { width: 100%; height: 34px; display: inline-block; border-bottom: 2px solid #56b4f8; padding: 0; margin: 0; }
+._citys0 li { display: inline-block; line-height: 34px; font-size: 15px; color: #888; width: 80px; text-align: center; cursor: pointer; }
+.citySel { background-color: #56b4f8; color: #fff !important; }
+._citys1 { width: 100%; display: inline-block; padding: 10px 0; }
+._citys1 a { width: 83px; height: 35px; display: inline-block; background-color: #f5f5f5; color: #666; margin-left: 6px; margin-top: 3px; line-height: 35px; text-align: center; cursor: pointer; font-size: 13px; overflow: hidden; }
+._citys1 a:hover { color: #fff; background-color: #56b4f8; }
+.AreaS { background-color: #56b4f8 !important; color: #fff !important; }
+</style>
+        <script>
+            $(document).ready(function(){
+                $.ajaxSetup({
+                  data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+                });
+                $("#submit").click(function(){
+                    var a = $("#city").val();
+                    //通过get函数的方式，第一个参数是请求的url，第二个参数是提交的数据，第三个是请求成功的回调函数
+                    $.getJSON("{% url 'select_school' %}",{'a':a}, function(ret){  
+                        $("#result").empty();//清空输出区域                         
+                        if(ret.length > 1){ 
+                            $.each(ret, function(i,item){
+                                // i 为索引，item为遍历值
+                                if(i == 0){
+                                    $('#result').append("查询的地区是："+a+"；"+item+"</br>");//i==0这一条，返回的是查询时间
+                                    //继续向下循环，开始第二条，即跳过i==0这一条，而继续i==1开始；
+                                    return true;
+                                }
+                                $('#result').append(i+":"+item+"</br>");                          
+                            });
+                        }
+                        else{
+                            $('#result').append("查询的地区是："+a+"；</br>您所选地区没有学校！");
+                        }
+                    });                   
+                });
+                $("#submit2").click(function(){
+                    var a = $("#city").val();
+                    var b = $("#schoolname").val();
+                    //通过get函数的方式，第一个参数是请求的url，第二个参数是提交的数据，第三个是请求成功的回调函数
+                    $.post("{% url 'add_school' %}",{'a':a,'b':b}, function(ret){
+                        $('#schools').html(ret)
+                    });                   
+                });
+            });
+        </script>
+{% endblock %}
+{% block content %}
+
+       <h1> 查询学校 </h1>
+                      
+                <label >您的所在地：</label><input type="text" id="city" />  <br>
+  
+                <script type="text/javascript">
+                $("#city").click(function (e) {
+                    SelCity(this,e);
+                });
+                </script>
+            <input type="button" value="查询" class="btn btn-primary" id='submit'>
+ 
+            <p> <span id='result'></span></p>
+
+
+
+
+         <h1> 添加学校 </h1>
+
+            <label >填写学校名称: </label><input type="text" id="schoolname" > <br>
+            <p> <span id='schools'> </span></p>
+            <button type="button" class="btn btn-primary" id='submit2'>添加</button>
+ 
+
+
+
+
+{% endblock %}

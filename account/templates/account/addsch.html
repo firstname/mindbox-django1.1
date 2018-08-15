@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block guid %}  
+  - <a href="{% url 'addsch' %}"> add new school </a>{% endblock %}
+  {% block title %} add school {% endblock %} 
+{% block content %}
+
+        
+    <div class="well">
+        <h1>add   school</h1>
+        <p>&nbsp;</p>
+
+<!-- 注册表单开始 -->
+        <form class="alert alert-success" action="" method="post">
+            {% csrf_token %}
+               
+            <table class=""> 
+            {% for field in form %} 
+                <tr>
+                <td>{{ field.label_tag }}</td> <td>{{ field }} </td><td>{{ field.errors }}</td>
+                </tr>
+                <tr><td> &nbsp &nbsp </td></tr>
+            {% endfor %}   
+            </table>     
+            
+            <p class="form-actions">
+                <input type="submit" value="add" class="btn btn-primary">
+             
+            </p>
+        </form>
+    </div>
+
+{% endblock %}

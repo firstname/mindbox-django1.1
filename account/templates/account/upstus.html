@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block guid %}  {{ request.path }}- <a href="{% url 'stulist' %}"> student </a>
+  - <a href="{% url 'impstu' %}"> import new students </a>{% endblock %}
+{% block content %}
+
+        
+    <div class="well">
+        <h1>批量增加
+        {% if request.path == "/accounts/impstu/student"   %}   
+            学生
+          {% elif request.path == "/accounts/impstu/teacher" %}   
+           教师
+          {% endif %} 
+        </h1>
+        <p>&nbsp;</p>
+	<p>您的单位是：&nbsp;{{ operator_profile.schoolname }}，&nbsp;{{ operator_profile.districtname }}，
+			&nbsp;{{ operator_profile.cityname }}，&nbsp;{{ operator_profile.provincename }}，被添加者拥有和您同样的单位(年级和班级需要在表格内给出信息)</p>
+<!-- 错误提示信息 -->
+    {% if user_is_reged %}
+        <div class="alert alert-error">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <h4>错误!</h4>用户无权限
+        </div> {% endif %}
+
+<!-- 注册表单开始 -->
+        <form class="alert alert-success" action="" method="post" enctype="multipart/form-data" accept-charset="utf-8">
+        
+          {% if request.path == "/accounts/impstu/student"   %}   
+            <p >  <a href="{% url 'downtemplate' pp='students' %}">下载学生用户信息模板文件</a>   </p>  <!-- pp传递的文件名 -->
+          {% elif request.path == "/accounts/impstu/teacher" %}   
+            <p >  <a href="{% url 'downtemplate' pp='teacher' %}">下载教师用户信息模板文件</a>   </p>  <!-- pp传递的文件名 --> 
+          {% endif %}  
+          
+            {% csrf_token %}
+            <!-- {{ form.as_p }} -->   
+            <table class=""> 
+            {% for field in form %} 
+                <tr>
+                <td>{{ field.label_tag }}</td> <td>{{ field }} </td><td>{{ field.errors }}</td>
+                </tr>
+                <tr><td> &nbsp &nbsp </td></tr>
+            {% endfor %}   
+            </table>     
+            
+            <p class="form-actions">
+                <input type="submit" value="上传" class="btn btn-primary">
+             
+            </p>
+        </form>
+    </div>
+
+{% endblock %}

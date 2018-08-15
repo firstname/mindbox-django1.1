@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block guid %}  - <a href="{% url 'schlist' %}"> school list </a>{% endblock %}
+  {% block title %} school list {% endblock %} 
+{% block content %}
+
+    {% if not user.is_authenticated %}
+        <div class="alert alert-error">
+
+
+            您还没有<a href="{% url 'login' %}">登录</a> 
+
+        </div>
+ {% else %} 
+ 
+    {% if not user.is_superuser %}
+        <div class="alert alert-error">
+
+
+            您没有权限</a> 
+
+        </div>
+    {% else %}  
+    <div class="well">
+        <h1>schools</h1>
+        <a href="{% url 'schdelete' %}">delete all</a> 
+        <div  class="alert alert-success">
+            <table class="table table-striped"> 
+                <thead>
+              <tr>
+                <th>id</th>
+                <th>schoolname</th>
+                <th>school type</th>
+                <th>district</th>
+                <th>city</th>
+                <th>province</th>
+                <th>creator</th>
+                <th>created time</th>
+                <th>created way</th>
+                <th>admin</th>
+               
+                <!-- <th>管理</th>
+                <th>邮件</th>
+                <th>是否有效</th> -->
+
+                </tr>  
+        </thead>
+            <tbody>  
+	{% for sch in schools%} 
+        <td>{{sch.id}}</td>
+        <td>{{sch.name}}</td>
+        <td>{{sch.schooltype}}</td>
+        <td>{{sch.qu.name}}</td>
+        <td>{{sch.shi.name}} </td>
+        <td>{{sch.sheng.name}} </td>
+
+        <td>{{sch.creator}}</td>
+        <td>{{sch.created_time}}</td>
+        <td>{{sch.created_way}}</td>
+        <td>
+		
+		{% if  sch.admin_name != ''  %}
+	
+			{{sch.admin_name}}
+            <a href="{% url 'createadmin' pp=sch.id %}">
+            change admin
+            </a> <!-- pp传递的学校id 学校名称为汉字，无法通过地址传递-->
+			
+		{% else %}
+			<a href="{% url 'createadmin' pp=sch.id %}">
+			create admin
+			</a> <!-- pp传递的学校id 学校名称为汉字，无法通过地址传递-->
+		{% endif %}
+	</td>
+
+        <!-- <td>{{uuu.is_staff}}</td>
+        <td>{{uuu.user_permissions}}</td>
+        <td>{{user.email}}</td>
+        <td>{{uuu.is_active}}</td>  -->
+               
+        </tr>
+        
+         
+        {% endfor %} 
+        </tbody></table>
+    </div></div>
+    {% endif %} 
+  {% endif %} 
+{% endblock %}
