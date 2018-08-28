@@ -14,7 +14,7 @@
 {{ msg }}
 </h3>
 <!-- 注册表单开始 -->
-        <form class="form-horizontal" action="register" method="post">
+        <form class="form-horizontal" action="{% url 'register' %}" method="post">
             {% csrf_token %}
 
  <input type='hidden' name='location' value="{{ location }}"/>

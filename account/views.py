@@ -202,53 +202,18 @@ def select_school3(request):
     #pros_json = serializers.serialize("json",sheng)
     return render(request,'account/select_school3.html')
 
-def select_school2(request):
-    pro = []
-    cit = {}
-    dis = {}
-    sch = {}
-    cla = {}
-    provinces_all = Province.objects.all().order_by('province_name')
-    citys_all = City.objects.all().order_by('city_name')
-    districts_all = District.objects.all().order_by('district_name')
-    schools_all = School.objects.all().order_by('school_name')
-    classes_all = Class.objects.all().order_by('class_name')
 
-    if provinces_all.count():
-        for p in provinces_all:
-            pro.append(p.province_name)
-        return HttpResponse(json.dumps(pro), content_type="application/json")
-    if citys_all.count():
-        for c in citys_all:
-            cit['pro_id'] = c.province_foreign
-            cit['name'] = c.city_name
-        return HttpResponse(json.dumps(cit), content_type="application/json")
-
-
-def select_school(request):
-    c = []
-    if 'a' in request.GET:
-        a = request.GET['a']
-        b = School.objects.filter(location=a)
-        if b.count():
-            c.append(str("查询时间："+datetime.datetime.now().strftime('%Y-%m-%d %H:%I:%S')))
-            for sch in b:
-                c.append(str(sch.school_name)) 
-        # 当使用表单请求方式的时候将下一行注释，由于表单是请求一整个页面，需用render返回页面，而ajax请求的是json数据，需要json的dump转换
-        return HttpResponse(json.dumps(c), content_type="application/json")
-    return render(request,'account/select_school.html')
-
-def select_school_ajax_check(request):
+def confirm_school(request):
+    regform = RegisterForm(request.POST)
+    #已经提交数据
     if request.method == 'POST':
-        if 'school' in request.POST:
-            a = request.POST['location']
-            b = request.POST['school']
-            c = ' 您选择的学校是：'+ a + b
-            regform = RegisterForm()   
-            return render(request, 'account/register.html',{'form': regform,'msg': c,'location': a,'school': b,}) 
-        else:
-            return HttpResponse('您没有选择学校，请返回选择学校！')
-
+        sheng = request.POST['shengshi']['ss']
+        shi = request.POST['shengshi']['sq']
+        qu = request.POST['shengshi']['xs']
+        xiao = request.POST['shengshi']['xx']
+        ban = request.POST['shengshi']['bj']
+        msg = '学校选择成功，您选择的学校是：'+ sheng + shi + qu + xiao + ban
+        return render_to_response('account/register.html', RequestContext(request, {'form': regform,'msg': msg,}))  
 
 
 
@@ -256,7 +221,15 @@ def register(request):
     #已经提交数据
     if request.method == 'POST':
         regform = RegisterForm(request.POST)
-        if regform.is_valid():
+        if 'shengshi' in request.POST:
+            sheng = request.POST['shengshi']['ss']
+            shi = request.POST['shengshi']['sq']
+            qu = request.POST['shengshi']['xs']
+            xiao = request.POST['shengshi']['xx']
+            ban = request.POST['shengshi']['bj']
+            msg = '学校选择成功，您选择的学校是：'+ sheng + shi + qu + xiao + ban
+            return render_to_response('account/register.html', RequestContext(request, {'form': regform,'msg': msg,}))  
+        elif 'username' in request.POST:
             location = request.POST.get('location', '')
             school_name = request.POST.get('school', '')
             school = get_object_or_404(School,location=location,school_name=school_name)

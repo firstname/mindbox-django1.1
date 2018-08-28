@@ -55,6 +55,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'mindbox.urls'
+APPEND_SLASH=False
 
 TEMPLATES = [
     {
