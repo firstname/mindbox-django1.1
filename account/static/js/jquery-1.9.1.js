@@ -13,7 +13,7 @@ window.Modernizr=(function(P,l){var _='1.1', J={},T=true,ab=true,M=100,ad=l.docu
 /***
  * 地区JSON
  */
-var proStr='[{"ID":"1","NAME":"北京","ITEMS":[{"ID":"11","NAME":"北京市","ITEMS":[{"ID":"111","NAME":"西城区","ITEMS":[{"ID":"1111","NAME":"第1中学"},{"ID":"1112","NAME":"第2中学"}]},{"ID":"112","NAME":"东城区"}]}]},{"ID":"2","NAME":"天津","ITEMS":[{"ID":"2","NAME":"天津市","ITEMS":[{"ID":"19","NAME":"和平区"},{"ID":"20","NAME":"河东区"}]}]}]'
+var proStr= '[{"ID":"1","NAME":"北京","ITEMS":[{"ID":"11","NAME":"北京市","ITEMS":[{"ID":"111","NAME":"西城区","ITEMS":[{"ID":"1111","NAME":"第1中学","ITEMS":[{"ID":"11111","NAME":"初1701班"},{"ID":"11112","NAME":"初1702班"}]},{"ID":"1112","NAME":"第2中学","ITEMS":[]}]},{"ID":"112","NAME":"东城区","ITEMS":[]}]}]},{"ID":"2","NAME":"天津","ITEMS":[{"ID":"2","NAME":"天津市","ITEMS":[{"ID":"19","NAME":"和平区","ITEMS":[]},{"ID":"20","NAME":"河东区","ITEMS":[]}]}]}]'
 
 /***
  * form 提交 回调函数

@@ -44,7 +44,7 @@ function getArea(valCity,valPro){
 	newStr.push("</ul>");
 	if(asize==0){
 		var allarea=province[valPro].NAME+city[valCity].NAME;
-		$("#shengshi").attr({"SS":province[valPro].NAME,"SQ":city[valCity].NAME,"XS":""});
+		$("#shengshi").attr({"SS":province[valPro].NAME,"SQ":city[valCity].NAME,"XS":"","XX":"","BJ":""});
 		$("#shengshi").val(allarea);
 		$("#shi_div").css('display','nonoe');
 	}
@@ -72,7 +72,7 @@ function getSchool(valArea,valCity,valPro){
 	newStr.push("</ul>");
 	if(asize==0){
 		var allarea=province[valPro].NAME+city[valCity].NAME+area[valArea].NAME;
-		$("#shengshi").attr({"SS":province[valPro].NAME,"SQ":city[valCity].NAME,"XS":area[valArea].NAME});
+		$("#shengshi").attr({"SS":province[valPro].NAME,"SQ":city[valCity].NAME,"XS":area[valArea].NAME,"XX":"","BJ":""});
 		$("#shengshi").val(allarea);
 		$("#shi_div").css('display','nonoe');
 	}
@@ -96,35 +96,40 @@ function getClass(valSch,valArea,valCity,valPro){
 	newStr.push("<li onclick=\"getProvince()\" style=\"background-color:#999999;\">"+province[valPro].NAME+"</li>"); //省
 	newStr.push("<li onclick=\"getCity("+valPro+")\" style=\"background-color:#ccc;padding-left:10px;\">"+city[valCity].NAME+"</li>");//市
 	newStr.push("<li onclick=\"getArea("+valCity+","+valPro+")\"  style=\"background-color:#555;padding-left:10px;\">"+city[valCity].NAME+"</li>");//区
-	for(var k=0,asize=sch.length;k<asize;k++){
-		sch[k].NAME;
-		newStr.push("<li  style=\"padding-left:25px;\" onclick=\"getallArea("+k+","+valArea+","+valCity+","+valPro+")\">"+sch[k].NAME+"</li>");//校
+	newStr.push("<li onclick=\"getSchool("+valArea+","+valCity+","+valPro+")\"  style=\"background-color:#555;padding-left:10px;\">"+sch[valSch].NAME+"</li>");//校
+	for(var q=0,asize=cla.length;q<asize;q++){
+		cla[q].NAME;
+		newStr.push("<li  style=\"padding-left:25px;\" onclick=\"getallArea("+q+","+valSch+","+valArea+","+valCity+","+valPro+")\">"+cla[q].NAME+"</li>");//班
 	}
 	newStr.push("</ul>");
 	if(asize==0){
-		var allarea=province[valPro].NAME+city[valCity].NAME+area[valArea].NAME;
-		$("#shengshi").attr({"SS":province[valPro].NAME,"SQ":city[valCity].NAME,"XS":area[valArea].NAME});
+		var allarea=province[valPro].NAME+city[valCity].NAME+area[valArea].NAME+sch[valSch].NAME;
+		$("#shengshi").attr({"SS":province[valPro].NAME,"SQ":city[valCity].NAME,"XS":area[valArea].NAME,"XX":sch[valSch].NAME,"BJ":""});
 		$("#shengshi").val(allarea);
-		$("#shi_div").css('display','nonoe');
 	}
 	else{
-		$("#sheng_div").css('display','none');//隐藏sheng的div；
-		$("#shi_div").css('display','none');//隐藏shi的div；
-		$("#qu_div").css('display','none');//隐藏qu的div；
-		$("#xiao_div").html(newStr.join(""));
+		$("#ban_div").html(newStr.join(""));
 	}
+	$("#sheng_div").css('display','none');//隐藏sheng的div；
+	$("#shi_div").css('display','none');//隐藏shi的div；
+	$("#qu_div").css('display','none');//隐藏qu的div；
+	$("#xiao_div").css('display','none');//隐藏xiao的div；
 }
 
-function getallArea(valPro,valCity,val2){
+function getallArea(valCla,valSch,valArea,valCity,valPro){
 	var province=eval(proStr);
 	var city=eval(province[valPro].ITEMS);
 	var area=eval(city[valCity].ITEMS);
-	var allarea=province[valPro].NAME+"-"+city[valCity].NAME+"-"+area[val2].NAME;
-	$("#shengshi").attr({"SS":province[valPro].NAME,"SQ":city[valCity].NAME,"XS":area[val2].NAME});
+	var sch=eval(area[valArea].ITEMS);
+	var cla=eval(sch[valSch].ITEMS);
+	var allarea=province[valPro].NAME+"-"+city[valCity].NAME+"-"+area[valArea].NAME+"-"+sch[valSch].NAME+"-"+cla[valCla].NAME;
+	$("#shengshi").attr({"SS":province[valPro].NAME,"SQ":city[valCity].NAME,"XS":area[valArea].NAME,"XX":sch[valSch].NAME,"BJ":cla[valCla].NAME});
 	$("#shengshi").val(allarea);
 	$("#sheng_div").css('display','none');//隐藏sheng的div；
 	$("#shi_div").css('display','none');//隐藏shi的div；
 	$("#qu_div").css('display','none');//隐藏qu的div；
+	$("#xiao_div").css('display','none');//隐藏xiao的div
+	$("#ban_div").css('display','none');//隐藏ban的div；
 	$("#shengshi_submit").css('display','block');//显示提交按钮的div；
 }
 /*地区联动*/
