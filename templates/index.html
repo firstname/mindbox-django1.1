@@ -2,26 +2,28 @@
 {% load staticfiles %}
 
   {% block title %} index {% endblock %} 
-
+{% block head %}
+{% endblock %}
   
 
+
+    {% block navbar_right %} 
+    {% endblock %}
+  
 
 {% block content %}
 
 
-
   {% if not user.is_authenticated %}
-    <div class="well">
-      
-        <h1>登录</h1>
-        <p>&nbsp;</p>
-        {% if msgbox %}
-          <div class="alert">
-          {{ msg }}
-          </div>
-        {% endif %}
-
-        <form class="form-horizontal" action="" method="post">
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">登录</h3>
+    </div>
+    <div class="panel-body">
+                  <h4>
+                  {{ msg }}
+                  </h4>
+        <form  class="form-horizontal" action="" method="post">
             {% csrf_token %}
              <table class=""> 
             {% for field in form %} 
@@ -33,14 +35,46 @@
             </table> 
 
             <p class="form-actions">
-                <input type="submit" value="登录" class="btn btn-primary">
+                
                 <a href="{% url 'register' %}">忘记用户名</a>
                 <a href="{% url 'fgtpwd' %}">忘记密码</a>
-                <a href="{% url 'select_school' %}"  ><span class="label label-primary">注册</span></a>
+                <a href="{% url 'select_school' %}">新用户注册</a>
             </p>
+                <input type="submit" class="btn btn-primary" value="登录"></input>
         </form>
     </div>
+</div>
+
   {% endif %} 
+
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3 class="panel-title">待做任务</h3>
+    </div>
+    <div class="panel-body">        
+      <p>作业<a href="{% url 'home' %}">抑郁自评量表</a></p>
+      <p>考试<a href="{% url 'home' %}">个人档案</a></p>
+      <p>问卷<a href="{% url 'home' %}">抑郁自评量表</a></p>
+      <p>档案<a href="{% url 'home' %}">个人档案</a></p>
+      <p>预约<a href="{% url 'home' %}">抑郁自评量表</a></p>
+      <p>聊天<a href="{% url 'home' %}">个人档案</a></p>
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">最新动态</h3>
+    </div>
+    <div class="panel-body">
+      <p>***完成了作业<a href="{% url 'home' %}">抑郁自评量表</a></p>
+      <p>***完成了考试<a href="{% url 'home' %}">抑郁自评量表</a></p>
+      <p>***完成了问卷<a href="{% url 'home' %}">抑郁自评量表</a></p>
+      <p>***更新了档案<a href="{% url 'home' %}">抑郁自评量表</a></p>
+      <p>***完成了预约<a href="{% url 'home' %}">抑郁自评量表</a></p>
+      <p>***发表了评论<a href="{% url 'home' %}">抑郁自评量表</a></p>
+    </div>
+</div>
+
+
 
 
 

@@ -19,8 +19,10 @@ from account import views
 urlpatterns = [
     #url(r'^login/$',views.login, name='login'),
     url(r'^add_school$', views.add_school, name='add_school'),#管理员添加学校页面
-    url(r'^add$', views.add, name='add'),
-    url(r'^select_school/$', views.select_school, name='select_school'),#显示ajax择校页面
+    url(r'^list_school$', views.list_school, name='list_school'),#查看学校列表页面
+
+    url(r'^select_school/$', views.select_school3, name='select_school'),#显示择校页面
+    url(r'^select_school2/$', views.select_school2, name='select_school2'),#ajax择校
     url(r'^sel_sch_ajax_check/$', views.select_school_ajax_check, name='select_school_ajax_check'),#显示ajax择校校验
     url(r'^register/$',views.register, name='register'),
     url(r'^fgtpwd/$',views.fgtpwd, name='fgtpwd'),

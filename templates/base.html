@@ -16,7 +16,7 @@
 
     <!-- Custom styles for this template -->
     <!-- <link href="{% static 'css/navbar-fixed-top.css' %}" rel="stylesheet"> -->
-    <!-- <link href="{% static 'css/signin.css' %}" rel="stylesheet"> -->
+    <link href="{% static 'css/loading.css' %}" rel="stylesheet">
     <link href="{% static 'css/offcanvas.css' %}" rel="stylesheet">
     <link href="{% static 'css/sticky-footer-navbar.css' %}" rel="stylesheet">
 
@@ -32,6 +32,12 @@
     {% block head %}{% endblock %}
   </head>
   <body>
+
+<!--加载页面loading效果-->
+<div class="spinner">
+  <div class="dot1"></div>
+  <div class="dot2"></div>
+</div>
 
 
     <!-- Fixed navbar -->
@@ -49,8 +55,73 @@
         </div>
 
 
-        <div id="navbar" class="navbar-collapse collapse">
-          
+        <div id="navbar" class="navbar-collapse collapse">        
+            
+            
+            <!-- 开发阶段测试方便，不做权限控制，显示所有菜单 -->
+        <ul class="nav navbar-nav"> 
+<!-- 
+                    <li class="dropdown">
+                      <a href="/#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">作业考试 <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{% url 'home' %}">我的测试</a></li>
+                        <li><a href="{% url 'home' %}">所有测试</a></li>
+                      </ul>
+                    </li>
+
+                    <li class="dropdown">
+                      <a href="/#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">问卷调查 <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{% url 'home' %}">新建问卷</a></li>
+                        <li><a href="{% url 'home' %}">所有问卷</a></li>
+                      </ul>
+                    </li>
+ -->
+                    <li class="dropdown">
+                      <a href="/#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">心理档案 <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{% url 'home' %}">我的档案</a></li>
+                        <li><a href="{% url 'home' %}">所有档案</a></li>
+                      </ul>
+                    </li>
+
+
+                        <li><a href="{% url 'home' %}">心理预约</a></li>
+                        <li><a href="{% url 'home' %}">趣味测试</a></li>
+
+                    <li class="dropdown">
+                      <a href="/#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">用户管理 <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                      
+                        <li><a href="{% url 'home' %}">所有用户</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="dropdown-header">教师</li>
+                        <li><a href="{% url 'home' %}">新增教师</a></li>
+                     
+                        <li role="separator" class="divider"></li>
+                        <li class="dropdown-header">学生</li>
+                        <li><a href="{% url 'home' %}">新增学生</a></li>
+                        <li><a href="{% url 'home' %}">批量导入</a></li>
+                        <li><a href="{% url 'home' %}">全部学生</a></li>
+                      </ul>
+                    </li>
+            {% if  user.is_staff%}
+                    <li class="dropdown">
+                      <a href="/#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">机构管理 <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{% url 'add_school' %}">添加学校</a></li>
+                        <li><a href="{% url 'list_school' %}">查看学校</a></li>
+                      </ul>
+                    </li> 
+            {% endif %}                        
+          </ul>
+
+<!-- 结束     -->
+
+
+
+
+
 
         {% if user.is_authenticated %}
 
@@ -96,14 +167,12 @@
                     </li>
             {% endif %}
             
-            {% if  user.is_staff%}
-                <li><a href="{% url 'add_school' %}">添加学校</a></li>
-            {% endif %}
+
           </ul>
 
           <ul class="nav navbar-nav navbar-right">  
             <li class="dropdown">
-              <a href="/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{% static 'image/logo_30.png' %}" alt=""/>{{user.username}} <span class="caret"></span></a>
+              <a href="/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.username}} <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="{% url 'chgpwd' %}">修改密码</a></li>
                 <li><a href="{% url 'logout' %}">退出</a></li>
@@ -122,11 +191,11 @@
           </ul>  
       {% else %}
         <ul class="nav navbar-nav navbar-right">                   
-             <li > <a href="/" class="dropdown-toggle" > <!--  <img src="{% static 'image/logo_30.png' %}" alt=""/> --> 未登录</a></li>  
-              <li><a href="{% url 'add_school' %}">添加学校</a></li>
-              <li><a href="{% url 'select_school' %}">注册</a></li>
-              <!--  <li><a href="{% url 'add' %}">ajax示例</a></li> --> 
+             <li > <a href="/" class="dropdown-toggle" >登录</a></li> 
+              <li><a href="{% url 'select_school' %}">注册</a></li> 
+    {% block navbar_right %}{% endblock %}
         </ul>  
+
       
 
       {% endif %} 
@@ -146,6 +215,7 @@
 
 
   <div class="container"> 
+
 {% block content %}
         
 
@@ -160,6 +230,8 @@
     <!--footer-->
     <footer class="footer">
       <div class="container">
+
+ <img src="{% static 'image/logo_30.png' %}" alt=""/> 
         © <span class="label label-success">MindBook</span> 2016 
       </div>
     </footer>
@@ -173,5 +245,14 @@
     <script src="{% static 'js/ie10-viewport-bug-workaround.js' %}"></script>
 
     <script src="{% static 'js/offcanvas.js' %}"></script>
+<!--隐去页面loading效果-->
+<script>
+  $(document).ready(function(){
+    $(".spinner").hide();
+    $(".page-one").show();
+  });
+</script>
   </body>
+
+
 </html>

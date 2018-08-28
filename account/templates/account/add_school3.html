@@ -4,76 +4,39 @@
   {% block title %} 添加学校 {% endblock %} 
 {% block head %}
 <style type="text/css">
-._title  { display: inline-block; line-height: 34px; font-size: 15px; color: #888; width: 100%; text-align: left;  }
+._citys0 { width: 100%; height: 34px; display: inline-block; border-bottom: 0.5px solid #56b4f8; padding: 0; margin: 0; }
+._citys0 li { display: inline-block; line-height: 34px; font-size: 15px; color: #888; width: 120px; text-align: center;  }
 ._citys1 { width: 100%; display: inline-block; padding: 10px 0; }
 ._citys1 li { width: 83px; height: 35px; display: inline-block; background-color: #f5f5f5; color: #666; margin-left: 6px; margin-top: 3px; line-height: 35px; text-align: center; cursor: pointer; font-size: 13px; overflow: hidden; }
 ._citys1 li:hover { color: #fff; background-color: #56b4f8; }
 
+.divFrame{ width: 260px;border:  1px solid #666666;font-size: 10pt}
+.divContent{padding: 5px;display: none}
+.divCurrColor{background: red}
+.divTitle{background-color: #eee;padding: 5px}
 
 #sheng{ color:blue;display: block}
-#shi{ color:blue;display: none}
-#qu{ color:blue;display: none}
-#xiao{ color:blue;display: none}
-#ban{ color:blue;display: none}
+#shi{ color:blue;display: block}
+#qu{ color:blue;display: block}
+#xiao{ color:blue;display: block}
+#ban{ color:blue;display: block}
 </style>
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script>
        $(document).ready(function(){
             //处理sheng省级选择和提交
               //获取ul里面选项li的省名称，赋予input；并隐藏sheng的div；https://blog.csdn.net/yy211zhu/article/details/51353511
-              var Uarry1=$("#sheng_content li");//获取所有的li元素
+              var Uarry=$("#sheng_content li");//获取所有的li元素
               $("#sheng_content li").click(function(){//点击事件
                    //测试直接获取值 var v=$(this).text(); alert(v);                       
                    var count=$(this).index();//获取li的下标
-                   var Tresult=Uarry1.eq(count).text();//获取该下标li的值
-                   $("#id_province_name").val(""); //清空ID为id_province_name的input值；
-                   $("#id_province_name").val(Tresult);//赋予input；
-                   $("#sheng").css('display','none'); //隐藏sheng的div；
-                   $("#shi").css('display','block'); //显示shi的div；
-                                 
-              }) 
-            //处理shi级选择和提交
-              var Uarry2=$("#shi_content li");
-              $("#shi_content li").click(function(){                      
-                   var count=$(this).index();
-                   var Tresult=Uarry2.eq(count).text();
-                   $("#id_city_name").val(""); 
-                   $("#id_city_name").val(Tresult);
-                   $("#shi").css('display','none'); //隐藏shi的div；
-                   $("#qu").css('display','block'); //显示qu的div；
-                                 
-              })  
-            //处理qu级选择和提交
-              var Uarry3=$("#qu_content li");
-              $("#qu_content li").click(function(){                      
-                   var count=$(this).index();
-                   var Tresult=Uarry3.eq(count).text();
-                   $("#id_district_name").val(""); 
-                   $("#id_district_name").val(Tresult);
-                   $("#qu").css('display','none'); 
-                   $("#xiao").css('display','block'); 
-                                 
-              })  
-            //处理xiao级选择和提交
-              var Uarry4=$("#xiao_content li");
-              $("#xiao_content li").click(function(){                      
-                   var count=$(this).index();
-                   var Tresult=Uarry4.eq(count).text();
-                   $("#id_school_name").val(""); 
-                   $("#id_school_name").val(Tresult);
-                   $("#xiao").css('display','none'); 
-                   $("#ban").css('display','block'); 
-                                 
-              })  
-            //处理ban级选择和提交
-              var Uarry5=$("#ban_content li");
-              $("#ban_content li").click(function(){                      
-                   var count=$(this).index();
-                   var Tresult=Uarry5.eq(count).text();
-                   $("#id_class_name").val(""); 
-                   $("#id_class_name").val(Tresult);
-                   $("#ban").css('display','none'); 
-                                 
+                   var Tresult=Uarry.eq(count).text();//获取该下标li的值
+                   //ajax查询地区
+                   $.getJSON("{% url 'add_school' %}",{'sheng':Tresult}, function(ret){ 
+                        //返回值 ret 在这里是一个字典
+                        
+                       $('#shi_content').append('shashsahsh<br>');
+                   });         
               }) 
        })
    </script>
@@ -85,47 +48,40 @@
         <h3 class="panel-title">添加学校</h3>
     </div>
     <div  class="panel-body" >
-    <h3>{{ msg }}</h3>
+    {{ msg }}
 
  
                 <div   id="sheng" >
-                {% if province.count %}
-                    <span class="_title"> 最近添加省份： </span> 
+                    <ul class="_citys0"><li >最近添加省份：</li></ul> 
                     <ul class="_citys1" id="sheng_content">
+                {% if province.count %}
                     {% for sheng in province %}
                         <li > {{ sheng.province_name }}</li>
                     {% endfor %} 
-                    </ul>
                 {% else %} 
-                    <span class="_title">  当前还没有省份，请填写添加： </span> 
+                     当前还没有省份，请填写添加： 
                 {% endif %}
+                    </ul>
                 </div> 
 
 
  
                 <div  id="shi" >
-                {% if city.count %}
-                    <span class="_title"> 最近添加地市：</span> 
-                    <ul class="_citys1" id="shi_content">
-                    {% for shi in city %}
-                        <li > {{ shi.city_name }}</li>
-                    {% endfor %} 
-                    </ul>
-                {% else %} 
-                {% endif %}
-                    </ul>
+                    <ul class="_citys0"><li >最近添加地市：</li></ul> 
+                    <p> <span id='shi_content'>aiyayaya  </span></p>
                 </div> 
 
  
                 <div  id="qu" >
                 {% if district.count %}
-                    <span class="_title"> 最近添加区县：</span> 
+                    <ul class="_citys0"><li >最近添加区县：</li></ul> 
                     <ul class="_citys1" id="qu_content">
                     {% for qu in district %}
                         <li > {{ qu.district_name }}</li>
                     {% endfor %} 
                     </ul>
                 {% else %} 
+                    <ul class="_citys0"><li > 当前还没有区县，请填写添加： </li></ul> 
                 {% endif %}
                     </ul>
                 </div> 
@@ -133,13 +89,14 @@
  
                 <div  id="xiao" >
                 {% if school.count %}
-                    <span class="_title"> 最近添加学校：</span>  
-                    <ul class="_citys1" id="xiao_content">
+                    <ul class="_citys0"><li >最近添加学校：</li></ul> 
+                    <ul class="_citys1" id="shi_content">
                     {% for xiao in school %}
                         <li > {{ xiao.school_name }}</li>
                     {% endfor %} 
                     </ul>
                 {% else %} 
+                    <ul class="_citys0"><li > 当前还没有学校，请填写添加： </li></ul> 
                 {% endif %}
                     </ul>
                 </div> 
@@ -147,20 +104,21 @@
  
                 <div  id="ban" >
                 {% if class.count %}
-                    <span class="_title"> 最近添加班级：</span> 
-                    <ul class="_citys1" id="ban_content">
+                    <ul class="_citys0"><li >最近添加班级：</li></ul> 
+                    <ul class="_citys1" id="shi_content">
                     {% for ban in class %}
                         <li > {{ ban.class_name }}</li>
                     {% endfor %} 
                     </ul>
-                {% else %}                      
+                {% else %} 
+                    <ul class="_citys0"><li > 当前还没有班级，请填写添加： </li></ul> 
                 {% endif %}
                     </ul>
                 </div> 
 
 
             <div  id="input_info"> 
-                    <span class="_title"> 填写信息： </span> 
+                    <ul class="_citys0"><li >或者填写添加： </li></ul>
         <form  class="form-horizontal" action="" method="post">
             {% csrf_token %}
 

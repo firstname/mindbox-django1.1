@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+  {% block title %} 添加学校 {% endblock %} 
+{% block head %}
+<style type="text/css">
+._title  { display: inline-block; line-height: 34px; font-size: 15px; color: #5c8a8a; width: 100%; text-align: left;  }
+._provs { width: 100%; display: inline-block; padding: 10px  0 0 20px; background-color: #f0f5f5;}
+
+._citys { width: 100%; display: inline-block; padding:  10px  0 0 20px; background-color: #e0ebeb;}
+
+._dists { width: 100%; display: inline-block; padding:  10px  0 0 20px; background-color: #d1e0e0;}
+
+
+._schs { width: 100%; display: inline-block; padding:  10px  0 0 20px; background-color: #c2d6d6;}
+._schs span { width: 83px; height: 35px; display: inline-block; background-color: #f5f5f5; color: #666; margin-left: 6px; margin-top: 3px; line-height: 35px; text-align: center; cursor: pointer; font-size: 13px; overflow: hidden; }
+._schs span:hover { color: #fff; background-color: #56b4f8; }
+
+._clas { width: 100%; display: inline-block; padding:  10px  0 0 20px; background-color: #c2d6d6;}
+._clas span { width: 83px; height: 35px; display: inline-block; background-color: #56b4f8; color: #fff; margin-left: 6px; margin-top: 3px; line-height: 35px; text-align: center; cursor: pointer; font-size: 13px; overflow: hidden; }
+._clas span:hover { color: #666; background-color: #f5f5f5; }
+
+</style>
+
+{% endblock %}
+{% block content %}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">查询学校</h3>
+    </div>
+    <div  class="panel-body" >
+    <h3>当前共有学校{{ school.count }}所</h3>
+
+ 
+                <div   id="sheng" >
+                {% if province.count %}
+                    <div class="_provs" id="sheng_content">
+                    {% for sheng in province %}
+                        <span > {{ sheng.province_name }}</span>
+
+ 
+                  <div  id="shi" >
+                      <div class="_citys" id="shi_content">
+                      {% for shi in city %}                  
+                      {% if shi.province_foreign_id == sheng.id %}
+                          <span > {{ shi.city_name }}</span>
+
+       
+                                            <div  id="qu" >
+                                                <div class="_dists" id="qu_content">
+                                                {% for qu in district %}                      
+                                                {% if qu.city_foreign_id == shi.id %}
+                                                <span > {{ qu.district_name }}</span> 
+
+                         
+                                                                  <div  id="xiao" > 
+                                                                      <div class="_schs" id="xiao_content">
+                                                                      {% for xiao in school %}                         
+                                                                      {% if xiao.district_foreign_id == qu.id %}
+                                                                          <span > {{ xiao.school_name }}</span>{{ xiao.school_stage }}{{ xiao.available_time }}{{ xiao.admin.username }}
+                                                           
+                                                                                                        <div  id="ban" > 
+                                                                                                            <div class="_clas" id="ban_content">
+                                                                                                            {% for ban in class %}                                      
+                                                                                                            {% if ban.school_foreign_id == xiao.id %}
+                                                                                                                <span > {{ ban.class_name }}</span>                    
+                                                                                                            {% endif %}
+                                                                                                            {% endfor %} 
+                                                                                                            </div>
+                                                                                                        </div> <!-- end of ban -->
+
+                                                                      {% endif %}
+                                                                      {% endfor %} 
+                                                                      </div>
+                                                                  </div>  <!-- end of xiao -->
+
+                                                {% else %} 
+                                                {% endif %}
+                                                {% endfor %} 
+                                                </div>
+                                            </div>  <!-- end of qu -->
+
+                      {% else %} 
+                      {% endif %}
+                      {% endfor %} 
+                      </div>
+                  </div>  <!-- end of shi -->
+
+                    {% endfor %} 
+                    </div>
+                {% endif %}
+                </div> <!-- end of sheng -->
+
+
+
+    </div> 
+
+</div>
+
+
+{% endblock %}

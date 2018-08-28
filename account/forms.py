@@ -1,6 +1,6 @@
 #coding:utf-8
 from django import forms
-from account.models import User
+from .models import *
 #from bootstrap_toolkit.widgets import BootstrapDateInput, BootstrapTextInput, BootstrapUneditableInput
 
 USER_GROUPS = (
@@ -47,7 +47,7 @@ def validate_psw(value):
     if len(value) < 6:
         raise forms.ValidationError(u'密码长度不够' )
 
-class RegisterForm(forms.Form):
+class RegisterForm(forms.ModelForm):
     username = forms.CharField(
         required=True,validators=[validate_user],
         label=u"用户名",
@@ -64,7 +64,7 @@ class RegisterForm(forms.Form):
         error_messages={'required': u'请输入密码'},
         widget=forms.PasswordInput(
             attrs={
-                'placeholder':u"密码,必填,长度6位以上的数字、字符",
+                'placeholder':u"密码,必填,6位以上",
             }
         ),
     )  
@@ -100,6 +100,12 @@ class RegisterForm(forms.Form):
     ) 
     #usergroup = forms.ChoiceField(choices=USER_GROUPS,label='用户类型') 
     #不做选择,默认以学生身份注册;管理员可以修改userprofile将用户改为教师类型
+    class Meta:
+        model = User
+        fields = ('username','password1','password2',
+            'class_name', 'inschool_date', 'study_id', 'role', 'birthday', 'gender', 'qq_number', 'wechat_number', 'phone_number', 'bio', 'person_sign', 'picture', 'nick_name','real_name',)
+        #上面第一行是本form自己定义的字段，下面一行是从User引用的字段；
+        
     def clean(self):
         if not self.is_valid():
             raise forms.ValidationError(u"错误")
@@ -110,7 +116,6 @@ class RegisterForm(forms.Form):
         else:
             cleaned_data = super(RegisterForm, self).clean()
         return cleaned_data
-
 
 class PasswordForm(forms.Form):
     oldpassword = forms.CharField(
@@ -205,3 +210,25 @@ class ImpStuForm(forms.Form):
         else:
             cleaned_data = super(ImpStuForm, self).clean()
         return cleaned_data
+
+
+class add_province_model_form(forms.ModelForm):
+    class Meta:
+        model = Province
+        fields = ('province_name',)
+class add_city_model_form(forms.ModelForm):
+    class Meta:
+        model = City
+        fields = ('city_name',)
+class add_district_model_form(forms.ModelForm):
+    class Meta:
+        model = District
+        fields = ('district_name',)
+class add_school_model_form(forms.ModelForm):
+    class Meta:
+        model = School
+        fields = ('school_name','school_stage','school_code',)
+class add_class_model_form(forms.ModelForm):
+    class Meta:
+        model = Class
+        fields = ('class_name',)

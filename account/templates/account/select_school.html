@@ -21,18 +21,19 @@
 </style>
         <script>
             $(document).ready(function(){
-                $("#submit1").click(function(){
+                $("#submit1").click(function(){ 
+                    //在与服务器通讯较慢时给用户提示信息 
+                    $("#result").text("数据请求中，请稍后...");
                     var a = $("#city").val();
                     //通过get函数的方式，第一个参数是请求的url，第二个参数是提交的数据，第三个是请求成功的回调函数
-                    $.getJSON("{% url 'select_school' %}",{'a':a}, function(ret){
-                        $("#result").empty();//清空输出区域                        
+                    $.getJSON("{% url 'select_school' %}",{'a':a}, function(ret){ 
                         var html='';     
                         if(ret.length > 0){    
                             html += '请在下面选择您所在学校, 然后提交。</br>';               
                             $.each(ret, function(i,item){
                                 // i 为索引，item为遍历值
                                 if(i == 0){
-                                    //继续向下循环，开始第二条，即跳过i==0这一条，而继续i==1开始；这条记录的是查询时间；
+                                    //继续向下循环，开始第二条，即跳过i==0这一条，而继续i==1开始；这条记录的是查询时间；i==0这一条，返回的是查询时间
                                     return true;
                                 }
                                 //使用单引号，但是它的下一层，要使用双引号
@@ -46,6 +47,7 @@
                         else{
                             html += '您所选地区没有学校！请咨询您的老师。'
                         }
+                        $("#result").empty();//清空输出区域                       
                         $('#result').html(html);//在输出区域显示内容
                     });                   
                 });
@@ -53,10 +55,12 @@
         </script>
 {% endblock %}
 {% block content %}
-<div class="well">
-       <h1> 第一步：选择学校 </h1>
-                      
-                <label >您的所在地：</label><input type="text" id="city"  />  <br>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">第一步：选择学校</h3>
+    </div>
+    <div class="panel-body">
+        您的所在地：<input type="text" id="city"  />  <br>
   
                 <script type="text/javascript">
                 $("#city").click(function (e) {
@@ -68,15 +72,26 @@
            
           
             
-<form name=form1 action="{% url 'select_school_ajax_check' %}" method="POST" >
-{% csrf_token %}
+        <form name=form1 action="{% url 'select_school_ajax_check' %}" method="POST" >
+        {% csrf_token %}
 
-             <br>
-            <p> <span id='result'> </span></p>
-             
- </form>
-
+                     <br>
+                    <p> <span id='result'> </span></p>
+                     
+         </form>
+    </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
