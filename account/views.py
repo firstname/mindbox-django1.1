@@ -225,8 +225,8 @@ def add_school(request):
                                 msg = str(province_name)+'-'+str(city_name)+'-'+str(district_name) +'-'+str(school_name)+'-'+str(class_name)+', 添加成功！'  
         #生成js文件，包含所有单位名称proStr     
         pros_after = "var proStr= '" + make_proStr()+"'"
-        f2 = open('account/static/js/result-08-29_V.js','wb')#打开一个文件，用于写入，后面的'wb'表示每次写入前格式化文本，如果此文件不存在，则创建一个此文件名的文件
-        f2.write(pros_after.encode(' utf-8 '))
+        f2 = open('account/static/js/jquery-1.9.9.js','wb')#打开一个文件，用于写入，后面的'wb'表示每次写入前格式化文本，如果此文件不存在，则创建一个此文件名的文件
+        f2.write(pros_after.encode(' utf-8 '))#字符串写入需要编码，https://blog.csdn.net/u014453898/article/details/53537118
         f2.close()#执行完毕关闭文件
     return render(request, 'account/add_school.html',{'msg': msg,'form1': province_form,'form2': city_form,'form3': district_form,'form4': school_form,'form5': class_form,
                     'province': provinces_recent,'city': citys_recent,'district': districts_recent,'school': schools_recent,'class': classes_recent,
@@ -247,12 +247,12 @@ def list_school(request):
 
 
 
-
+#注册第一步，选择学校
 def select_school3(request):
     #pros_json = serializers.serialize("json",sheng)
     return render(request,'account/select_school3.html', {})
 
-
+#弹出注册第二步页面，填写个人信息
 def confirm_school(request):
     if request.method == 'POST':
         regform = RegisterForm()
@@ -270,7 +270,7 @@ def confirm_school(request):
         return render_to_response('account/register.html', RequestContext(request, {'form': regform,'msg':msg,'sheng': sheng,'shi': shi,'qu': qu,'xiao': xiao,'ban': ban,})) 
 
 
-
+#对注册信息进行验证
 def register(request):
     #已经提交数据
     if request.method == 'POST':
@@ -282,7 +282,7 @@ def register(request):
             ban = request.POST['cla'] 
             regform = RegisterForm(request.POST)
             if regform.is_valid():
-                location = sheng + shi + qu
+                location = sheng + '-' + shi + '-' + qu 
                 school_name = xiao
                 school = get_object_or_404(School,location=location,school_name=school_name)
                 classname = ban
@@ -290,6 +290,7 @@ def register(request):
                 username = request.POST.get('username', '')
                 password1 = request.POST.get('password1', '')
                 password2 = request.POST.get('password2', '')
+                email = ''
                 '''
                 #用户名是否被占用
                 user = User.objects.filter(username=username)
@@ -299,17 +300,17 @@ def register(request):
                 #注册成功
                 user = User.objects.create_user( username, email, password1 )
                 #用户扩展信息   
-                user.location = location 
+                user.location = location + '-' + xiao+ '-' + ban
                 user.school = school
                 user.classname = classname
-                user.inschool_date = ''
+                #user.inschool_date = '' #'' value has an invalid date format. It must be in YYYY-MM-DD format.
                 user.save()
 
                 #自动登录
                 user = auth.authenticate(username=username, password=password1)#登录前需要先验证  
                 if user is not None and user.is_active:
                     auth.login(request, user) 
-                    return render_to_response('account/register.html', RequestContext(request, {'form': None,'msg':'注册成功', }))          
+                    return render_to_response('index.html', RequestContext(request, {'msg':'注册成功', }))          
             else:
                 return render_to_response('account/register.html', RequestContext(request, {'form': regform,'msg': '注册失败','sheng': sheng,'shi': shi,'qu': qu,'xiao': xiao,'ban': ban,}))    
 def complete_self_info(request):

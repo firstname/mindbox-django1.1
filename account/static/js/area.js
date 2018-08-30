@@ -161,16 +161,5 @@ function getallArea(valCla,valSch,valArea,valCity,valPro){
 	$("#ban_div").css('display','none');//隐藏ban的div；
 	$("#shengshi_submit").css('display','block');//显示提交按钮的div；
 }
-/*
-function showRegForm(){
-	var province = $("#province").val();
-	var city = $("#city").val();
-	var area = $("#district").val();
-	var sch = $("#school").val();
-	var cla = $("#class").val();
-	$("#msg").html("选择成功，您选择的学校是：" + province + city + area + sch + cla);
-	$("#sch_div").css('display','none');//隐藏第一步的div；
-	$("#reg_div").css('display','block');//显示第二步填写注册信息的div；
-}
-*/
+
 /*地区联动*/
