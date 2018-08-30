@@ -2,6 +2,8 @@
  * 地区联动
  * */
 function getProvince(){
+	$("#shengshi").val('');
+	$("#msg_div").empty();
 	var province=eval(proStr);
 	var newStr=new Array();
 	newStr.push("<ul class=\"_citys1\">");
@@ -11,7 +13,6 @@ function getProvince(){
 	}
 	newStr.push("</ul>");
 	$("#sheng_div").html(newStr.join(""));
-
 	$("#sheng_div").css('display','block');//显示sheng的div；
 	$("#shi_div").css('display','none');//隐藏shi的div；
 	$("#qu_div").css('display','none');//隐藏qu的div；
@@ -63,7 +64,7 @@ function getArea(valCity,valPro){
 		$("#shengshi").attr({"SS":province[valPro].NAME,"SQ":city[valCity].NAME,"XS":"","XX":"","BJ":""});
 		$("#shengshi").val(allarea);
 		$("#msg_div").html("<h3>您选择的地市还没有区县，请联系您的老师添加后再来注册。</h3>");
-		//$("#shengshi_submit").css('display','block');//显示提交按钮的div；
+		$("#shengshi_submit").css('display','none');//隐藏提交按钮；
 	}
 	else{
 		$("#qu_div").html(newStr.join(""));
@@ -96,7 +97,7 @@ function getSchool(valArea,valCity,valPro){
 		$("#shengshi").attr({"SS":province[valPro].NAME,"SQ":city[valCity].NAME,"XS":area[valArea].NAME,"XX":"","BJ":""});
 		$("#shengshi").val(allarea);
 		$("#msg_div").html("<h3>您选择的地区还没有学校，请联系您的老师添加后再来注册。</h3>");
-		//$("#shengshi_submit").css('display','block');//显示提交按钮的div；
+		$("#shengshi_submit").css('display','none');//隐藏提交按钮；
 	}
 	else{
 		$("#xiao_div").html(newStr.join(""));
@@ -132,7 +133,7 @@ function getClass(valSch,valArea,valCity,valPro){
 		$("#shengshi").attr({"SS":province[valPro].NAME,"SQ":city[valCity].NAME,"XS":area[valArea].NAME,"XX":sch[valSch].NAME,"BJ":""});
 		$("#shengshi").val(allarea);
 		$("#msg_div").html("<h3>您选择的学校还没有班级，请联系您的老师添加后再来注册。</h3>");
-		//$("#shengshi_submit").css('display','block');//显示提交按钮的div；
+		$("#shengshi_submit").css('display','none');//隐藏提交按钮；
 	}
 	else{
 		$("#ban_div").html(newStr.join(""));
@@ -148,6 +149,11 @@ function getallArea(valCla,valSch,valArea,valCity,valPro){
 	var allarea=province[valPro].NAME+"-"+city[valCity].NAME+"-"+area[valArea].NAME+"-"+sch[valSch].NAME+"-"+cla[valCla].NAME;
 	$("#shengshi").attr({"SS":province[valPro].NAME,"SQ":city[valCity].NAME,"XS":area[valArea].NAME,"XX":sch[valSch].NAME,"BJ":cla[valCla].NAME});
 	$("#shengshi").val(allarea);
+	$("#province").val(province[valPro].NAME);
+	$("#city").val(city[valCity].NAME);
+	$("#district").val(area[valArea].NAME);
+	$("#school").val(sch[valSch].NAME);
+	$("#class").val(cla[valCla].NAME);
 	$("#sheng_div").css('display','none');//隐藏sheng的div；
 	$("#shi_div").css('display','none');//隐藏shi的div；
 	$("#qu_div").css('display','none');//隐藏qu的div；
@@ -155,4 +161,16 @@ function getallArea(valCla,valSch,valArea,valCity,valPro){
 	$("#ban_div").css('display','none');//隐藏ban的div；
 	$("#shengshi_submit").css('display','block');//显示提交按钮的div；
 }
+/*
+function showRegForm(){
+	var province = $("#province").val();
+	var city = $("#city").val();
+	var area = $("#district").val();
+	var sch = $("#school").val();
+	var cla = $("#class").val();
+	$("#msg").html("选择成功，您选择的学校是：" + province + city + area + sch + cla);
+	$("#sch_div").css('display','none');//隐藏第一步的div；
+	$("#reg_div").css('display','block');//显示第二步填写注册信息的div；
+}
+*/
 /*地区联动*/

@@ -18,7 +18,7 @@ class User(AbstractUser):
     }
     location = models.CharField(u'所在地',max_length=30, blank=True)#所在地，省+地市+区县+乡镇或街道
     school = models.ForeignKey('School',verbose_name=u'学校',null=True, blank=True, related_name='school_user')#学校
-    #上面一行为什么要对引用的外键名称加引号，因此此时被应用的对象还没创建，详情见：
+    #上面一行为什么要对引用的外键名称加引号，因此此时被引用的对象还没创建，详情见：
     #https://blog.csdn.net/ranyixu11/article/details/76381631
     class_name = models.CharField(u'班级名称',max_length=30, blank=True)#班级名称
     inschool_date = models.DateField(u'入学年份',blank=True, null=True)#入学年份
@@ -52,7 +52,7 @@ class Province(models.Model):
     update_time = models.DateTimeField(auto_now=True, editable=False, null=True)#更新时间
 
     def __unicode__(self):
-        return self.province_name
+        return self.name
 
     class Meta:  
         permissions = (

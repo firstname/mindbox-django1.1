@@ -78,6 +78,7 @@ class RegisterForm(forms.ModelForm):
             }
         ),
     ) 
+    '''
     email = forms.CharField(
         required=False,
         label=u"电子邮件",
@@ -98,12 +99,13 @@ class RegisterForm(forms.ModelForm):
             }
         ),
     ) 
+    '''
     #usergroup = forms.ChoiceField(choices=USER_GROUPS,label='用户类型') 
     #不做选择,默认以学生身份注册;管理员可以修改userprofile将用户改为教师类型
     class Meta:
         model = User
-        fields = ('username','password1','password2',
-            'class_name', 'inschool_date', 'study_id', 'role', 'birthday', 'gender', 'qq_number', 'wechat_number', 'phone_number', 'bio', 'person_sign', 'picture', 'nick_name','real_name',)
+        fields = ('username','password1','password2',)
+            #'class_name', 'inschool_date', 'study_id', 'role', 'birthday', 'gender', 'qq_number', 'wechat_number', 'phone_number', 'bio', 'person_sign', 'picture', 'nick_name','real_name',)
         #上面第一行是本form自己定义的字段，下面一行是从User引用的字段；
         
     def clean(self):

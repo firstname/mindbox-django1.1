@@ -5,21 +5,21 @@
 
 {% block content %}
 
-<div class="panel panel-primary">
+
+<div id="reg_div" class="panel panel-primary"  style="display:block">
     <div class="panel-heading">
         <h3 class="panel-title">第二步：填写账号</h3>
     </div>
-    <div class="panel-body">       
-<h3>
-{{ msg }}
+    <div class="panel-body"> 
+<h4 id=" " >
+您选择的学校是：{{ sheng }}{{ shi }}{{ qu }}{{ xiao }}{{ ban }}
+</h4>      
+<h3 id="msg" >
+{{ msg }} 
 </h3>
 <!-- 注册表单开始 -->
         <form class="form-horizontal" action="{% url 'register' %}" method="post">
             {% csrf_token %}
-
- <input type='hidden' name='location' value="{{ location }}"/>
- <input type='hidden' name='school' value="{{ school }}"/>
-        <p>&nbsp;</p>
 
                
             <table class=""> 
@@ -40,10 +40,18 @@
                 <input type="submit" value="注册" class="btn btn-primary">
              
             </p>
+
+<!--  此处的input一定要有name ，因为后台获取数据要靠name而不是id-->
+<!--  name和id的区别：多数情况用id；个别情况用name。参考 https://blog.csdn.net/qq_35038153/article/details/70215356 -->
+ <input type='hidden' id='province' name='pro' value="{{ sheng }}" />
+ <input type='hidden' id='city' name='cit' value="{{ shi }}" />
+ <input type='hidden' id='district' name='dis' value="{{ qu }}" />
+ <input type='hidden' id='school' name='sch' value="{{ xiao }}" />
+ <input type='hidden' id='class' name='cla' value="{{ ban }}" />
+         
         </form>
     </div>
 </div>
-
 
 
 
