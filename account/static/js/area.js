@@ -115,7 +115,7 @@ function getClass(valSch,valArea,valCity,valPro){
 	newStr.push("<ul class=\"_citys1\">");
 	newStr.push("<li onclick=\"getProvince()\" style=\"background-color:#3973ac;\">"+province[valPro].NAME+"</li>"); //省
 	newStr.push("<li onclick=\"getCity("+valPro+")\" style=\"background-color:#538cc6;padding-left:10px;\">"+city[valCity].NAME+"</li>");//市
-	newStr.push("<li onclick=\"getArea("+valCity+","+valPro+")\"  style=\"background-color:#8cb2d9;padding-left:10px;\">"+city[valCity].NAME+"</li>");//区
+	newStr.push("<li onclick=\"getArea("+valCity+","+valPro+")\"  style=\"background-color:#8cb2d9;padding-left:10px;\">"+area[valArea].NAME+"</li>");//区
 	newStr.push("<li onclick=\"getSchool("+valArea+","+valCity+","+valPro+")\"  style=\"background-color:#d9e6f2;padding-left:10px;\">"+sch[valSch].NAME+"</li>");//校
 	for(var q=0,asize=cla.length;q<asize;q++){
 		cla[q].NAME;

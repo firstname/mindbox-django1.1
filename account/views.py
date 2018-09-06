@@ -303,7 +303,7 @@ def register(request):
                 user.location = location + '-' + xiao+ '-' + ban
                 user.school = school
                 user.classname = classname
-                #user.inschool_date = '' #'' value has an invalid date format. It must be in YYYY-MM-DD format.
+                #user.inschool_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%I:%S') #'' value has an invalid date format. It must be in YYYY-MM-DD format.
                 user.save()
 
                 #自动登录
