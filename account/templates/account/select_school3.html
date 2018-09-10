@@ -21,6 +21,7 @@ li{list-style-type: none;}
 {% endblock %}
 {% block content %}
 
+
 <div id="sch_div" class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">第一步：选择学校</h3>
@@ -32,7 +33,7 @@ li{list-style-type: none;}
 
             <div id="addAddress">           
                 <div class="address_input"> 
-                点击选择：<input type="text" placeholder="省-市-区-校-班" id="shengshi" onclick="getProvince()" readonly="readonly" ></br></br>
+                点击选择：<input type="text" placeholder="省-市-区-校-班" id="shengshi" onclick="getProvince()" readonly="readonly"  name='prostr'></br></br>
                 <!-- <input type="button" onclick="javascript:location.reload();" value="清空重选"> -->
                 <!-- <input type="button" onclick="showRegForm()" class="btn btn-primary" value="确定选择">  -->
                 </div>
@@ -50,12 +51,12 @@ li{list-style-type: none;}
 
              
                 <!--  此处的input一定要有name ，因为后台获取数据要靠name而不是id-->
-                <!--  name和id的区别：多数情况用id；个别情况用name。参考 https://blog.csdn.net/qq_35038153/article/details/70215356 -->
+                <!--  name和id的区别：多数情况用id；个别情况用name。参考 https://blog.csdn.net/qq_35038153/article/details/70215356
                  <input type='hidden' id='province' name='pro'/>
                  <input type='hidden' id='city' name='cit'/>
                  <input type='hidden' id='district' name='dis'/>
                  <input type='hidden' id='school' name='sch'/>
-                 <input type='hidden' id='class' name='cla'/>
+                 <input type='hidden' id='class' name='cla'/> -->
          
 
                 <div id="shengshi_submit" > 

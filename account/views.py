@@ -258,11 +258,12 @@ def confirm_school(request):
         regform = RegisterForm()
         #<!--  此处的input一定要有name ，因为后台获取数据要靠name而不是id-->
         #<!--  name和id的区别：多数情况用id；个别情况用name。参考 https://blog.csdn.net/qq_35038153/article/details/70215356 -->
-        sheng = request.POST.get('pro', '').strip()
-        shi = request.POST.get('cit', '').strip()
-        qu = request.POST.get('dis', '').strip()
-        xiao = request.POST.get('sch', '').strip()
-        ban = request.POST.get('cla', '').strip() 
+        allpro = request.POST.get('prostr', '').strip().split('-')#字符串的分割和组合https://www.cnblogs.com/justdo-it/articles/8297303.html
+        sheng = allpro[0] 
+        shi = allpro[1]
+        qu = allpro[2]
+        xiao = allpro[3]
+        ban = allpro[4] 
         msg = ''
         reg_code = request.POST.get('regCode', '').strip() 
         if reg_code == '':
